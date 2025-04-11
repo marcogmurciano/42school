@@ -1,0 +1,36 @@
+- leer format
+- sacar arg_num (la cantidad de % en format)
+-malloquear un array types_arr en base a arg_num
+-meter en cada elemento de types_arr la letra correspondiente
+-crear variable total_memory
+-buclear sobre (types_arr[i] != NULL), ese bucle debe contener una sucesión de condicionales del tipo
+if (types_arr[i] == long)
+{
+total_memory+=sizeof(long)
+}
+-total_memory+= strlen(format), habría que restarle 2 por cada argumento, el porcentaje y la letra. Algo en plan -2 x arg_num
+Luego hacer ya la mandanga:
+Void parameter_handle (i, puntero al string que concatenar)
+{
+    If (types_arr[i] == int)
+   {
+         Parameter = va_arg(va_list, int)
+          String_result+= itoa(parameter);
+    }
+...
+}
+Seria como:
+While (format[i])
+{
+      If (format[i] == '%')
+     {
+           Handle_parameter(parameter_count,             &string_result)
+           i++,i++;
+     }
+     Else
+     {
+            String_result+= format[i]
+            i++
+      }
+}
+
