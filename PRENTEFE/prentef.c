@@ -6,56 +6,76 @@
 /*   By: marcoga2 <marcoga2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 15:50:15 by marcoga2          #+#    #+#             */
-/*   Updated: 2025/04/10 16:06:35 by marcoga2         ###   ########.fr       */
+/*   Updated: 2025/04/11 13:13:35 by marcoga2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdarg.h>
 #include <libft.h>
+#include <stdarg.h>
 
-int	prentefe(char *format, ...)
+
+ 
+
+ 
+int count_args (char *types_arr, char *format)
 {
 	int	arg_num;
+	int	reading_arg;
 	int	i;
-	char *types_arr;
-	int total_memory;
-	char *result;
+	int	array_num;
 
+	reading_arg = 0;
 	arg_num = 0;
+	array_num = 0;
 	i = 0;
 	while (format[i])
 	{
-		if (format[i] == '%')
-			arg_num++;
+		if (format[i] == '%' || reading_arg)
+		{
+			if(!reading_arg)
+				reading_arg = 1;
+			else
+			{
+				reading_arg = 0;
+				if (format[i] != '%')
+				{
+					arg_num++;
+					if (types_arr)
+						types_arr[array_num++] = format[i];
+				}
+			}
+		}
 		i++;
 	}
+	return (arg_num);
+}
+
+
+
+
+
+int	prentefe(char *format, ...)
+{
+
 	*types_arr = malloc(sizeof(char) * arg_num);
-	while(types_arr[i] != NULL)
+	i = 0;
+	while (types_arr[i] != NULL)
 	{
-		//buscar exactamente que letras y que tipo de datos recibe printf
+		// buscar exactamente que letras y que tipo de datos recibe printf
+		// • %c Imprime un solo carácter.
+		// • %s Imprime una string (como se define por defecto en C).
+		// • %p El puntero void
+			* dado como argumento se imprime en formato hexadecimal.
+		// • %d Imprime un número decimal (base 10).
+		// • %i Imprime un entero en base 10.
+		// • %u Imprime un número decimal (base 10) sin signo.
+		// • %x Imprime un número hexadecimal (base 16) en minúsculas.
+		// • %X Imprime un número hexadecimal (base 16) en mayúsculas.
+		// • %% para imprimir el símbolo del porcentaje
 		if (types_arr[i] == long)
-			total_memory+=sizeof(long)
-		if (types_arr[i] == long)
-			total_memory+=sizeof(long)
-		if (types_arr[i] == long)
-			total_memory+=sizeof(long)
-		if (types_arr[i] == long)
-			total_memory+=sizeof(long)
-		if (types_arr[i] == long)
-			total_memory+=sizeof(long)
-		if (types_arr[i] == long)
-			total_memory+=sizeof(long)
-		if (types_arr[i] == long)
-			total_memory+=sizeof(long)
-		if (types_arr[i] == long)
-			total_memory+=sizeof(long)
-		if (types_arr[i] == long)
-			total_memory+=sizeof(long)
-		if (types_arr[i] == long)
-			total_memory+=sizeof(long)
-		if (types_arr[i] == long)
-			total_memory+=sizeof(long)
+			total_memory += sizeof(long) i++;
 	}
-	total_memory = total_memory + (ft_strlen(format) - (2 * arg_num))
-	result = malloc(total_memory * sizeof(char)) //esto chekearlo porque no se yo
+	total_memory = total_memory + ((ft_strlen(format) - (2 * arg_num))
+			* sizeof(char)) result = malloc(total_memory)
+		// esto chekearlo porque no se yo
 }
