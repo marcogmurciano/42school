@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: marco <marco@student.42.fr>                +#+  +:+       +#+         #
+#    By: marcoga2 <marcoga2@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/20 14:38:44 by marco             #+#    #+#              #
-#    Updated: 2025/01/23 20:31:15 by marco            ###   ########.fr        #
+#    Updated: 2025/04/11 15:42:49 by marcoga2         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,8 +28,10 @@ ft_substr.c ft_tolower.c ft_toupper.c
 OBJS = $(SRCS:.c=.o)
 
 # bonus files
-BONUS_SRCS = ft_lstadd_back.c ft_lstadd_front.c ft_lstclear.c ft_lstdelone.c \
-ft_lstiter.c ft_lstlast.c ft_lstmap.c ft_lstnew.c ft_lstsize.c
+BONUS_SRCS = ft_lstadd_back_bonus.c ft_lstadd_front_bonus.c \
+ft_lstclear_bonus.c ft_lstdelone_bonus.c \
+ft_lstiter_bonus.c ft_lstlast_bonus.c ft_lstmap_bonus.c \
+ft_lstnew_bonus.c ft_lstsize_bonus.c
 BONUS_OBJS = $(BONUS_SRCS:.c=.o)
 
 # rules
@@ -49,4 +51,8 @@ fclean: clean
 
 re: fclean all
 
-.PHONY bonus clear re fclean
+%.o: %.c
+	$(CC) $(CFLAGS) -c $< -o $@
+
+.PHONY: all bonus clean re fclean
+
