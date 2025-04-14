@@ -1,0 +1,6 @@
+-iterar ssobre format e ir concatenando los caracteres a un nuevo string
+- si se encuentra un  % pasar por "el gran filtro"
+-concatenar el resultado de el gran filtro
+
+
+
