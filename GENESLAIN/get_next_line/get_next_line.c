@@ -6,7 +6,7 @@
 /*   By: marcoga2 <marcoga2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 11:38:27 by marcoga2          #+#    #+#             */
-/*   Updated: 2025/04/18 13:06:21 by marcoga2         ###   ########.fr       */
+/*   Updated: 2025/04/18 15:31:58 by marcoga2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,27 +20,28 @@
 size_t	linelen_mode(const char *s, int mode)
 {
 	size_t	i;
-	
+
+	i = 0;
 	if (mode == 1)
 	{
-		i = 0;
 		while (s[i] != '\0')
 			i++;
 		return (i);
 	}
 	else if (mode == 2)
 	{
-		i = 0;
 		while (s[i] != '\0' || s[i] != '\n')
 			i++;
 		return (i);
 	}
 	else if (mode == 3)
 	{
-		i = 0;
-		while (s[i] != '\n')
+		while (s[i] != '\0')
+		{
+			if (s[i] == '\n')
+				return (1);
 			i++;
-		return (i);
+		}
 	}
 	return (0);
 }
@@ -67,6 +68,50 @@ char	*string_join(char *save, char *temp)
 	return (new);
 }
 
+void	*ft_calloc(size_t size, size_t amount)
+{
+	char	*result;
+	char	*s;
+	size_t	i;
+
+	i = 0;
+	result = malloc(size * amount);
+	if (!result)
+		return (NULL);
+	s = (char *)result;
+	while (i < size * amount)
+		s[i++] = '\0';
+	return (result);
+}
+
+char	*copy_n_clear(char *s)
+{
+	char	*result;
+	size_t	len;
+	int		i;
+
+	len = linelen_mode(s, 2);
+	result = (char *)ft_calloc(sizeof(char), len + 1);
+	while (++i < len)
+		result[i] = s[i];
+	if (s[i] == '\n')
+		result[i] = '\n';
+	else
+		result[i] = '\0';
+	return (result);
+}
+
+
+
+
+
+
+
+
+
+
+
+
 char	*read_until_enter(int fd, char *save)
 {
 	int		chars_num;
@@ -87,12 +132,15 @@ char	*read_until_enter(int fd, char *save)
 		}
 		buffer[chars_num] = '\0';
 		save = string_join(save, buffer);
-		if (ft_strchr(save, '\n'))
+		if (linelen_mode(save, 3) == 1)
 			break ;
 	}
 	free(buffer);
 	return (save);
 }
+
+
+
 
 char	*get_next_line(int fd)
 {
@@ -104,7 +152,7 @@ char	*get_next_line(int fd)
 	save = read_until_enter(fd, save);
 	if (save == NULL)
 		return (NULL);
-	line = create_line(save);
+	line = copy_n_clear(save);
 	save = the_rest(save);
 	return (line);
 }
