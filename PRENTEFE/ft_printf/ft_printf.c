@@ -6,31 +6,31 @@
 /*   By: marco <marco@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 15:50:15 by marcoga2          #+#    #+#             */
-/*   Updated: 2025/04/15 16:29:35 by marco            ###   ########.fr       */
+/*   Updated: 2025/04/21 12:14:11 by marco            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-void	read_arg(char specifier, va_list args, int *result, int *reading_arg)
+static void	read_arg(char c, va_list args, int *result, int *reading_arg)
 {
 	*reading_arg = 0;
-	if (specifier == 'c')
+	if (c == 'c')
 	{
 		print_char(va_arg(args, int), result);
 		result++;
 	}
-	else if (specifier == 's')
+	else if (c == 's')
 		print_str(va_arg(args, char *), result);
-	else if (specifier == 'p')
+	else if (c == 'p')
 		printp(va_arg(args, void *), result);
-	else if (specifier == 'd' || specifier == 'i')
+	else if (c == 'd' || c == 'i')
 		printd(va_arg(args, int), result);
-	else if (specifier == 'u')
+	else if (c == 'u')
 		printu(va_arg(args, unsigned int), result);
-	else if (specifier == 'x' || specifier == 'X')
-		printx(va_arg(args, unsigned int), result, specifier);
-	else if (specifier == '%')
+	else if (c == 'x' || c == 'X')
+		printx(va_arg(args, unsigned int), result, c);
+	else if (c == '%')
 		print_char('%', result);
 	else
 		return ;
