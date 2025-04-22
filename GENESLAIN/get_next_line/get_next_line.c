@@ -6,9 +6,13 @@
 /*   By: marcoga2 <marcoga2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 11:38:27 by marcoga2          #+#    #+#             */
-/*   Updated: 2025/04/22 13:03:25 by marcoga2         ###   ########.fr       */
+/*   Updated: 2025/04/22 18:18:29 by marcoga2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#ifndef BUFFER_SIZE
+# define BUFFER_SIZE 2
+#endif
 
 #include "get_next_line.h"
 
@@ -44,6 +48,8 @@ char	*clear_til_n(char *s)
 		s++;
 	len = linelen_mode(s, 1);
 	result = (char *)ft_calloc(sizeof(char), len + 1);
+	if (!result)
+		return (NULL);
 	i = 0;
 	while (s[i] != '\0')
 	{
@@ -61,6 +67,8 @@ char	*read_til_n(int fd, char *save)
 	if (!save)
 		save = ft_calloc(1, 1);
 	buffer = ft_calloc(sizeof(char), BUFFER_SIZE + 1);
+	if (!buffer)
+		return (NULL);
 	chars_num = 1;
 	while (chars_num > 0)
 	{
@@ -85,7 +93,7 @@ char	*get_next_line(int fd)
 	char		*line;
 	char		*temp;
 
-	if (read(fd, 0, 0) < 0 || fd < 0)
+	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
 	save = read_til_n(fd, save);
 	if (save == NULL)
@@ -95,4 +103,26 @@ char	*get_next_line(int fd)
 	free(save);
 	save = temp;
 	return (line);
+}
+
+#include <stdio.h>
+
+int	main(void)
+{
+	int		a = open("archivodeprueba.txt", O_RDONLY);
+	char	*line;
+
+	if (a == -1)
+	{
+		perror("Error abriendo el archivo\n");
+		return (1);
+	}
+	printf("archivo leido\n");
+	while ((line = get_next_line(a)) != NULL)
+	{
+		printf("%s\n", line);
+		free(line);
+	}
+	close(a);
+	return (0);
 }

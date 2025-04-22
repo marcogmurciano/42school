@@ -6,7 +6,7 @@
 /*   By: marcoga2 <marcoga2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 11:38:18 by marcoga2          #+#    #+#             */
-/*   Updated: 2025/04/22 13:03:35 by marcoga2         ###   ########.fr       */
+/*   Updated: 2025/04/22 18:06:19 by marcoga2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,24 +41,44 @@ size_t	linelen_mode(const char *s, int mode)
 	return (0);
 }
 
+char	*partial_join(char *save, char *temp)
+{
+	char	*new;
+	size_t	i;
+	size_t	s_len;
+	size_t	t_len;
+
+	i = 0;
+	s_len = linelen_mode(save, 1);
+	t_len = linelen_mode(temp, 1);
+	new = ft_calloc(s_len + t_len + 1, sizeof(char));
+	if (!new)
+		return (NULL);
+	while (i < s_len)
+	{
+		new[i] = save[i];
+		i++;
+	}
+	i = 0;
+	while (i < t_len + 1)
+	{
+		new[i + s_len] = temp[i];
+		i++;
+	}
+	return (new);
+}
+
 char	*string_join(char *save, char *temp)
 {
 	char	*new;
-	size_t	save_len;
-	size_t	temp_len;
-	int		i;
 
-	save_len = linelen_mode(save, 1);
-	temp_len = linelen_mode(temp, 1);
-	new = (char *)malloc(save_len + temp_len + 1);
+	if (!save)
+		save = ft_calloc(1, 1);
+	if (!temp)
+		return (save);
+	new = partial_join(save, temp);
 	if (!new)
 		return (NULL);
-	i = -1;
-	while (++i < save_len)
-		new[i] = save[i];
-	i = -1;
-	while (++i < temp_len + 1)
-		new[i + save_len] = temp[i];
 	free(save);
 	return (new);
 }
