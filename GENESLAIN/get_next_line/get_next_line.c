@@ -3,107 +3,35 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marco <marco@student.42.fr>                +#+  +:+       +#+        */
+/*   By: marcoga2 <marcoga2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 11:38:27 by marcoga2          #+#    #+#             */
-/*   Updated: 2025/04/21 13:56:32 by marco            ###   ########.fr       */
+/*   Updated: 2025/04/22 13:03:25 by marcoga2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#define BUFFER_SIZE 42
-#include <unistd.h>
-#include <limits.h>
-#include <stddef.h>
-#include <string.h>
-#include <fcntl.h>
-#include <stdlib.h>
+#include "get_next_line.h"
 
-size_t	linelen_mode(const char *s, int mode)
-{
-	size_t	i;
-
-	i = 0;
-	if (mode == 1)
-	{
-		while (s[i] != '\0')
-			i++;
-		return (i);
-	}
-	else if (mode == 2)
-	{
-		while (s[i] != '\0' && s[i] != '\n')
-			i++;
-		return (i);
-	}
-	else if (mode == 3)
-	{
-		while (s[i] != '\0')
-		{
-			if (s[i] == '\n')
-				return (1);
-			i++;
-		}
-	}
-	return (0);
-}
-
-char	*string_join(char *save, char *temp)
-{
-	char	*new;
-	size_t	save_len;
-	size_t	temp_len;
-	int		i;
-
-	save_len = linelen_mode(save, 1);
-	temp_len = linelen_mode(temp, 1);
-	new = (char *)malloc(save_len + temp_len + 1);
-	if (!new)
-		return (NULL);
-	i = -1;
-	while (++i < save_len)
-		new[i] = save[i];
-	i = -1;
-	while (++i < temp_len + 1)
-		new[i + save_len] = temp[i];
-	free(save);
-	return (new);
-}
-
-void	*ft_calloc(size_t size, size_t amount)
-{
-	char	*result;
-	char	*s;
-	size_t	i;
-
-	i = 0;
-	result = malloc(size * amount);
-	if (!result)
-		return (NULL);
-	s = (char *)result;
-	while (i < size * amount)
-		s[i++] = '\0';
-	return (result);
-}
-
-char	*copy(char *s)
+char	*copy_til_n(char *s)
 {
 	char	*result;
 	size_t	len;
 	size_t	i;
 
+	if (s == NULL)
+		return (NULL);
 	i = 0;
 	len = linelen_mode(s, 2);
 	result = (char *)ft_calloc(sizeof(char), len + 1);
 	while (i < len)
-		result[i] = s[i++];
-	if (s[i] == '\n')
-		result[i] = '\n';
-	else if (s[i] == '\0')
-		result[i] = '\0';
+	{
+		result[i] = s[i];
+		i++;
+	}
 	return (result);
 }
 
-char	*clear(char *s)
+char	*clear_til_n(char *s)
 {
 	char	*result;
 	size_t	len;
@@ -114,15 +42,18 @@ char	*clear(char *s)
 		s++;
 	if (*s == '\n')
 		s++;
-	len = linelen_mode(s, 2);
-	result = (char *)ft_calloc(sizeof(char), len);
+	len = linelen_mode(s, 1);
+	result = (char *)ft_calloc(sizeof(char), len + 1);
 	i = 0;
-	while (s[i] != '\n' && s[i] != '\0')
+	while (s[i] != '\0')
+	{
 		result[i] = s[i];
+		i++;
+	}
 	return (result);
 }
 
-char	*read_until_enter(int fd, char *save)
+char	*read_til_n(int fd, char *save)
 {
 	int		chars_num;
 	char	*buffer;
@@ -134,13 +65,12 @@ char	*read_until_enter(int fd, char *save)
 	while (chars_num > 0)
 	{
 		chars_num = read(fd, buffer, BUFFER_SIZE);
-		if (chars_num == -1)
+		if (chars_num < 1)
 		{
 			free(buffer);
 			free(save);
 			return (NULL);
 		}
-		buffer[chars_num] = '\0';
 		save = string_join(save, buffer);
 		if (linelen_mode(save, 3) == 1)
 			break ;
@@ -148,9 +78,6 @@ char	*read_until_enter(int fd, char *save)
 	free(buffer);
 	return (save);
 }
-
-
-
 
 char	*get_next_line(int fd)
 {
@@ -160,34 +87,12 @@ char	*get_next_line(int fd)
 
 	if (read(fd, 0, 0) < 0 || fd < 0)
 		return (NULL);
-	save = read_until_enter(fd, save);
+	save = read_til_n(fd, save);
 	if (save == NULL)
 		return (NULL);
-	line = copy(save);
-	temp = clear(save);
+	line = copy_til_n(save);
+	temp = clear_til_n(save);
 	free(save);
 	save = temp;
 	return (line);
 }
-
-#include <stdio.h>
-
-
-int main(void)
-{
-	int a = open("archivodeprueba.txt", O_RDONLY);
-	if (a == -1)
-	{
-		perror("Error abriendo el archivo");
-		return (1);
-	}
-	char *line;
-	while ((line = get_next_line(a)) != NULL)
-	{
-		printf("%s", line);
-		free(line);
-	}
-	close(a);
-	return (0);
-}
-
