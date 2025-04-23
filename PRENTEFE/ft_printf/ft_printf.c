@@ -3,23 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marco <marco@student.42.fr>                +#+  +:+       +#+        */
+/*   By: marcoga2 <marcoga2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 15:50:15 by marcoga2          #+#    #+#             */
-/*   Updated: 2025/04/21 12:14:11 by marco            ###   ########.fr       */
+/*   Updated: 2025/04/23 12:45:14 by marcoga2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-static void	read_arg(char c, va_list args, int *result, int *reading_arg)
+static void	read_arg(char c, va_list args, size_t *result, int *reading_arg)
 {
 	*reading_arg = 0;
 	if (c == 'c')
-	{
 		print_char(va_arg(args, int), result);
-		result++;
-	}
 	else if (c == 's')
 		print_str(va_arg(args, char *), result);
 	else if (c == 'p')
@@ -39,15 +36,15 @@ static void	read_arg(char c, va_list args, int *result, int *reading_arg)
 int	ft_printf(const char *format, ...)
 {
 	va_list	args;
-	int		result;
-	int		i;
+	size_t	result;
+	size_t	i;
 	int		reading_arg;
 
 	reading_arg = 0;
 	result = 0;
-	i = -1;
+	i = 0;
 	va_start(args, format);
-	while (format[++i])
+	while (format[i])
 	{
 		if (format[i] == '%' || reading_arg)
 		{
@@ -58,6 +55,7 @@ int	ft_printf(const char *format, ...)
 		}
 		else
 			print_char(format[i], &result);
+		i++;
 	}
 	va_end(args);
 	return (result);

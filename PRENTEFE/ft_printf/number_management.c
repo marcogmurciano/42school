@@ -3,64 +3,45 @@
 /*                                                        :::      ::::::::   */
 /*   number_management.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marco <marco@student.42.fr>                +#+  +:+       +#+        */
+/*   By: marcoga2 <marcoga2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 15:39:14 by marco             #+#    #+#             */
-/*   Updated: 2025/04/21 12:12:07 by marco            ###   ########.fr       */
+/*   Updated: 2025/04/23 14:35:51 by marcoga2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-static int	numlen(long n)
+void	printnbr(int n, size_t *result)
 {
-	int	len;
-
-	len = (n <= 0);
-	while (n != 0)
+	if (n == -2147483648)
 	{
-		n = n / 10;
-		len++;
-	}
-	return (len);
-}
-
-static int	calculate_len(long n, int is_unsigned)
-{
-	if (is_unsigned)
-		return (numlen((unsigned int)n));
-	if (n < 0)
-		return (numlen(-n));
-	return (numlen(n));
-}
-
-void	numtochar(long n, char **result, int is_unsigned)
-{
-	int				len;
-	unsigned long	num;
-
-	len = calculate_len(n, is_unsigned);
-	*result = malloc(sizeof(char) * (len + 1));
-	if (!(*result))
+		print_str("-2147483648", result);
 		return ;
-	(*result)[len] = '\0';
-	if (!is_unsigned && n < 0)
-	{
-		(*result)[0] = '-';
-		num = -n;
 	}
-	else
-		num = (unsigned long)n;
-	while (len-- > 0)
+	if (n < 0)
 	{
-		if (!is_unsigned && n < 0 && len == 0)
-			return ;
-		(*result)[len] = (num % 10) + '0';
-		num /= 10;
+		print_char('-', result);
+		n = -n;
 	}
+	if (n >= 10)
+		printnbr(n / 10, result);
+	print_char((n % 10) + '0', result);
 }
 
-void	put_hex_recursive(unsigned int n, int *result, int uppercase)
+void	printunsigned(unsigned int n, size_t *result)
+{
+	if (n == 4294967295)
+	{
+		print_str("4294967295", result);
+		return ;
+	}
+	if (n >= 10)
+		printunsigned(n / 10, result);
+	print_char((n % 10) + '0', result);
+}
+
+void	put_hex_recursive(uintptr_t n, size_t *result, int uppercase)
 {
 	char	*hex_digits;
 

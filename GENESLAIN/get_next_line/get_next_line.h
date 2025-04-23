@@ -6,10 +6,9 @@
 /*   By: marcoga2 <marcoga2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 12:57:37 by marcoga2          #+#    #+#             */
-/*   Updated: 2025/04/22 16:46:20 by marcoga2         ###   ########.fr       */
+/*   Updated: 2025/04/23 10:48:14 by marcoga2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
@@ -29,7 +28,4 @@ char	*clear_til_n(char *s);
 char	*read_til_n(int fd, char *save);
 char	*get_next_line(int fd);
 
-#endif
-#ifndef BUFFER_SIZE
-# define BUFFER_SIZE 42
 #endif

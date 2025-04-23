@@ -6,13 +6,13 @@
 /*   By: marco <marco@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 15:39:14 by marco             #+#    #+#             */
-/*   Updated: 2025/04/21 12:12:07 by marco            ###   ########.fr       */
+/*   Updated: 2025/04/15 16:29:23 by marco            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-static int	numlen(long n)
+int	numlen(long n)
 {
 	int	len;
 
@@ -25,7 +25,7 @@ static int	numlen(long n)
 	return (len);
 }
 
-static int	calculate_len(long n, int is_unsigned)
+int	calculate_len(long n, int is_unsigned)
 {
 	if (is_unsigned)
 		return (numlen((unsigned int)n));

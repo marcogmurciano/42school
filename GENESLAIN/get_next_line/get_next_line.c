@@ -6,7 +6,7 @@
 /*   By: marcoga2 <marcoga2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 11:38:27 by marcoga2          #+#    #+#             */
-/*   Updated: 2025/04/22 18:18:29 by marcoga2         ###   ########.fr       */
+/*   Updated: 2025/04/23 16:04:03 by marcoga2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,11 +41,11 @@ char	*clear_til_n(char *s)
 	size_t	len;
 	size_t	i;
 
-	i = 0;
 	while (*s && *s != '\n')
 		s++;
-	if (*s == '\n')
-		s++;
+	if (*s == '\0')
+		return (NULL);
+	s++;
 	len = linelen_mode(s, 1);
 	result = (char *)ft_calloc(sizeof(char), len + 1);
 	if (!result)
@@ -76,6 +76,8 @@ char	*read_til_n(int fd, char *save)
 		if (chars_num < 1)
 		{
 			free(buffer);
+			// if (chars_num == 0)
+			// 	return (save);
 			free(save);
 			return (NULL);
 		}
@@ -95,9 +97,12 @@ char	*get_next_line(int fd)
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
-	save = read_til_n(fd, save);
-	if (save == NULL)
-		return (NULL);
+	if (!save || !linelen_mode(save, 3))
+	{
+		save = read_til_n(fd, save);
+		if (save == NULL || linelen_mode(save, 1) == 0)
+			return (NULL);
+	}
 	line = copy_til_n(save);
 	temp = clear_til_n(save);
 	free(save);
@@ -105,11 +110,39 @@ char	*get_next_line(int fd)
 	return (line);
 }
 
+#include <string.h>
 #include <stdio.h>
+
+void print_color(const char *text, const char *color) {
+    // Definimos códigos de color ANSI
+    const char *reset = "\033[0m";
+    const char *red = "\033[31m";
+    const char *green = "\033[32m";
+    const char *yellow = "\033[33m";
+    const char *blue = "\033[34m";
+    const char *magenta = "\033[35m";
+    const char *cyan = "\033[36m";
+    const char *white = "\033[37m";
+
+    const char *selected_color = reset; // Por defecto
+
+    // Seleccionar el color
+    if (color != NULL) {
+        if (strcmp(color, "red") == 0) selected_color = red;
+        else if (strcmp(color, "green") == 0) selected_color = green;
+        else if (strcmp(color, "yellow") == 0) selected_color = yellow;
+        else if (strcmp(color, "blue") == 0) selected_color = blue;
+        else if (strcmp(color, "magenta") == 0) selected_color = magenta;
+        else if (strcmp(color, "cyan") == 0) selected_color = cyan;
+        else if (strcmp(color, "white") == 0) selected_color = white;
+    }
+
+    printf("%s%s%s\n", selected_color, text, reset);
+}
 
 int	main(void)
 {
-	int		a = open("archivodeprueba.txt", O_RDONLY);
+	int		a = open("../../../francinette/tests/get_next_line/gnlTester/files/41_no_nl", O_RDONLY);
 	char	*line;
 
 	if (a == -1)
@@ -120,7 +153,8 @@ int	main(void)
 	printf("archivo leido\n");
 	while ((line = get_next_line(a)) != NULL)
 	{
-		printf("%s\n", line);
+		print_color(line, "blue");
+		sleep(1);
 		free(line);
 	}
 	close(a);

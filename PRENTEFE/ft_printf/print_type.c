@@ -3,49 +3,42 @@
 /*                                                        :::      ::::::::   */
 /*   print_type.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marco <marco@student.42.fr>                +#+  +:+       +#+        */
+/*   By: marcoga2 <marcoga2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 15:50:58 by marco             #+#    #+#             */
-/*   Updated: 2025/04/15 16:29:45 by marco            ###   ########.fr       */
+/*   Updated: 2025/04/23 14:59:50 by marcoga2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-void	printd(int n, int *result)
+void	printd(int n, size_t *result)
 {
-	char	*trans_num;
-
-	numtochar(n, &trans_num, 0);
-	if (!trans_num)
-		return ;
-	print_str(trans_num, result);
-	free(trans_num);
+	printnbr(n, result);
 }
 
-void	printu(unsigned int n, int *result)
+void	printu(unsigned int n, size_t *result)
 {
-	char	*trans_num;
-
-	numtochar(n, &trans_num, 1);
-	if (!trans_num)
-		return ;
-	print_str(trans_num, result);
-	free(trans_num);
+	printunsigned(n, result);
 }
 
-void	printp(void *ptr, int *result)
+void	printp(void *ptr, size_t *result)
 {
 	uintptr_t	addr;
 
 	addr = (uintptr_t)ptr;
+	if (addr == 0)
+	{
+		print_str("(nil)", result);
+		return ;
+	}
 	print_str("0x", result);
 	put_hex_recursive(addr, result, 0);
 }
 
-void	printx(unsigned int n, int *result, int specifier)
+void	printx(unsigned int n, size_t *result, int specifier)
 {
-	int		uppercase;
+	int	uppercase;
 
 	uppercase = 0;
 	if (specifier == 'X')

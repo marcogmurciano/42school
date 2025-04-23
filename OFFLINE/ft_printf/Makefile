@@ -3,17 +3,17 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: marcoga2 <marcoga2@student.42.fr>          +#+  +:+       +#+         #
+#    By: marco <marco@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/20 14:38:44 by marco             #+#    #+#              #
-#    Updated: 2025/04/17 13:05:29 by marcoga2         ###   ########.fr        #
+#    Updated: 2025/04/15 16:20:17 by marco            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 #newline with \
 # compilation variables
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -I libft/
+CFLAGS = -Wall -Wextra -Werror
 AR = ar rcs
 NAME = libftprintf.a
 
@@ -21,16 +21,18 @@ NAME = libftprintf.a
 SRCS = ft_printf.c number_management.c print_type.c endpoint.c
 OBJS = $(SRCS:.c=.o)
 
+# bonus files
+# BONUS_SRCS = ft_lstadd_back_bonus.c ft_lstadd_front_bonus.c \
+# ft_lstclear_bonus.c ft_lstdelone_bonus.c \
+# ft_lstiter_bonus.c ft_lstlast_bonus.c ft_lstmap_bonus.c \
+# ft_lstnew_bonus.c ft_lstsize_bonus.c
+# BONUS_OBJS = $(BONUS_SRCS:.c=.o)
 
 # rules
 all: $(NAME)
 
-libft: libft/libft.a
-	make -C libft
-#    LIBDIR_PATH
-# -L libft -lft
-$(NAME): $(OBJS) libft
-	$(AR) $(NAME) $(OBJS) libft/libft.a
+$(NAME): $(OBJS)
+	$(AR) $(NAME) $(OBJS)
 
 clean:
 	rm -f $(OBJS) $(BONUS_OBJS)
