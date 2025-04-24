@@ -6,15 +6,16 @@
 /*   By: marcoga2 <marcoga2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 11:38:27 by marcoga2          #+#    #+#             */
-/*   Updated: 2025/04/23 16:04:03 by marcoga2         ###   ########.fr       */
+/*   Updated: 2025/04/24 16:06:57 by marcoga2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef BUFFER_SIZE
-# define BUFFER_SIZE 2
+# define BUFFER_SIZE 42
 #endif
 
 #include "get_next_line.h"
+#include <stdio.h>
 
 char	*copy_til_n(char *s)
 {
@@ -32,6 +33,8 @@ char	*copy_til_n(char *s)
 		result[i] = s[i];
 		i++;
 	}
+	if (s[i] == '\n')
+		result = string_join(result, "\n");
 	return (result);
 }
 
@@ -59,11 +62,13 @@ char	*clear_til_n(char *s)
 	return (result);
 }
 
-char	*read_til_n(int fd, char *save)
+char	*read_til_n(int fd, char *save, int *is_empty)
 {
 	int		chars_num;
 	char	*buffer;
+	int		i;
 
+	i = 0;
 	if (!save)
 		save = ft_calloc(1, 1);
 	buffer = ft_calloc(sizeof(char), BUFFER_SIZE + 1);
@@ -73,15 +78,19 @@ char	*read_til_n(int fd, char *save)
 	while (chars_num > 0)
 	{
 		chars_num = read(fd, buffer, BUFFER_SIZE);
+		if (chars_num != 0)
+			is_empty = 0;
 		if (chars_num < 1)
 		{
 			free(buffer);
-			// if (chars_num == 0)
-			// 	return (save);
+			if (chars_num == 0 && !is_empty)
+				return (save);
 			free(save);
 			return (NULL);
 		}
 		save = string_join(save, buffer);
+		while (i < BUFFER_SIZE)
+			buffer[i++] = '\0';
 		if (linelen_mode(save, 3) == 1)
 			break ;
 	}
@@ -92,14 +101,16 @@ char	*read_til_n(int fd, char *save)
 char	*get_next_line(int fd)
 {
 	static char	*save;
+	static int	is_empty;
 	char		*line;
 	char		*temp;
 
+	is_empty = 1;
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
 	if (!save || !linelen_mode(save, 3))
 	{
-		save = read_til_n(fd, save);
+		save = read_til_n(fd, save, &is_empty);
 		if (save == NULL || linelen_mode(save, 1) == 0)
 			return (NULL);
 	}
@@ -110,53 +121,36 @@ char	*get_next_line(int fd)
 	return (line);
 }
 
-#include <string.h>
-#include <stdio.h>
+// #include <stdio.h>
 
-void print_color(const char *text, const char *color) {
-    // Definimos códigos de color ANSI
-    const char *reset = "\033[0m";
-    const char *red = "\033[31m";
-    const char *green = "\033[32m";
-    const char *yellow = "\033[33m";
-    const char *blue = "\033[34m";
-    const char *magenta = "\033[35m";
-    const char *cyan = "\033[36m";
-    const char *white = "\033[37m";
+// int	main(void)
+// {
+// 	int		a;
+// 	char	*line;
+// 	int		i;
 
-    const char *selected_color = reset; // Por defecto
+// 	a = open("../../../francinette/tests/get_next_line/gnlTester/files/43_with_nl",
+// 			O_RDONLY);
+// 	if (!a)
+// 	{
+// 		perror("Error abriendo el archivo\n");
+// 		return (1);
+// 	}
+// 	printf("archivo leido\n");
+// 	i = 0;
+// 	while ((line = get_next_line(a)) != NULL)
+// 	{
+// 		printf("%s", line);
+// 		sleep(1);
+// 		free(line);
+// 		i++;
+// 	}
+// 	if (line == NULL)
+// 		printf("NULO");
+// 	close(a);
+// 	return (0);
+// }
 
-    // Seleccionar el color
-    if (color != NULL) {
-        if (strcmp(color, "red") == 0) selected_color = red;
-        else if (strcmp(color, "green") == 0) selected_color = green;
-        else if (strcmp(color, "yellow") == 0) selected_color = yellow;
-        else if (strcmp(color, "blue") == 0) selected_color = blue;
-        else if (strcmp(color, "magenta") == 0) selected_color = magenta;
-        else if (strcmp(color, "cyan") == 0) selected_color = cyan;
-        else if (strcmp(color, "white") == 0) selected_color = white;
-    }
-
-    printf("%s%s%s\n", selected_color, text, reset);
-}
-
-int	main(void)
-{
-	int		a = open("../../../francinette/tests/get_next_line/gnlTester/files/41_no_nl", O_RDONLY);
-	char	*line;
-
-	if (a == -1)
-	{
-		perror("Error abriendo el archivo\n");
-		return (1);
-	}
-	printf("archivo leido\n");
-	while ((line = get_next_line(a)) != NULL)
-	{
-		print_color(line, "blue");
-		sleep(1);
-		free(line);
-	}
-	close(a);
-	return (0);
-}
+// printf("----------------------------------\n");
+// printf("la línea : \n %s \n contiene %d ENE\n", result,
+// printf("----------------------------------\n");

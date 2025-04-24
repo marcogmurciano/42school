@@ -6,7 +6,7 @@
 /*   By: marcoga2 <marcoga2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 11:38:18 by marcoga2          #+#    #+#             */
-/*   Updated: 2025/04/23 15:30:03 by marcoga2         ###   ########.fr       */
+/*   Updated: 2025/04/24 14:47:52 by marcoga2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ char	*partial_join(char *save, char *temp)
 	i = 0;
 	s_len = linelen_mode(save, 1);
 	t_len = linelen_mode(temp, 1);
-	new = ft_calloc(s_len + t_len + 1, sizeof(char));
+	new = ft_calloc(sizeof(char), s_len + t_len + 1);
 	if (!new)
 		return (NULL);
 	while (i < s_len)

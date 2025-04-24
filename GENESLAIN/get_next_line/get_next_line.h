@@ -6,7 +6,7 @@
 /*   By: marcoga2 <marcoga2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 12:57:37 by marcoga2          #+#    #+#             */
-/*   Updated: 2025/04/23 10:48:14 by marcoga2         ###   ########.fr       */
+/*   Updated: 2025/04/24 16:07:38 by marcoga2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ char	*string_join(char *save, char *temp);
 void	*ft_calloc(size_t size, size_t amount);
 char	*copy_til_n(char *s);
 char	*clear_til_n(char *s);
-char	*read_til_n(int fd, char *save);
+char	*read_til_n(int fd, char *save, int *is_empty);
 char	*get_next_line(int fd);
 
 #endif
