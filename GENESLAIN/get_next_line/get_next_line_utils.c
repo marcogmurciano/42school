@@ -6,26 +6,82 @@
 /*   By: marcoga2 <marcoga2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 11:38:18 by marcoga2          #+#    #+#             */
-/*   Updated: 2025/04/24 14:47:52 by marcoga2         ###   ########.fr       */
+/*   Updated: 2025/04/25 17:48:04 by marcoga2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-size_t	linelen_mode(const char *s, int mode)
+char	*ft_strjoin(char *s1, char *s2)
+{
+	char	*str;
+	size_t	i;
+	size_t	j;
+
+	if (!s1)
+	{
+		s1 = malloc(sizeof(char) + 1);
+		if (!s1)
+			return (0);
+		s1[0] = 0;
+	}
+	str = (char *)malloc(linelen_mode(1, s1) + linelen_mode(1, s2) + 1);
+	if (!str)
+		return (super_free(&s1));
+	i = -1;
+	while (s1[++i])
+		str[i] = s1[i];
+	j = -1;
+	while (s2[++j])
+		str[i + j] = s2[j];
+	str[i + j] = '\0';
+	free(s1);
+	return (str);
+}
+
+char	*ft_substr(char *s, unsigned int start, size_t fragment_len)
 {
 	size_t	i;
+	size_t	total_len;
+	char	*result;
 
 	i = 0;
-	if (mode == 1)
+	total_len = linelen_mode(1, s);
+	if (!s)
+		return (0);
+	if (start > total_len)
 	{
-		while (s[i] != '\0')
-			i++;
-		return (i);
+		result = malloc(sizeof(char) * (1));
+		if (!result)
+			return (NULL);
+		result[0] = '\0';
+		return (result);
 	}
-	else if (mode == 2)
+	if (total_len - start < fragment_len)
+		fragment_len = linelen_mode(1, s) - start;
+	result = malloc(sizeof(char) * (fragment_len + 1));
+	if (!result)
+		return (NULL);
+	while (start < total_len && i < fragment_len && s[start])
+		result[i++] = s[start++];
+	result[i] = '\0';
+	return (result);
+}
+
+size_t	linelen_mode(int mode, const char *s)
+{
+	size_t	i;
+	char	c;
+
+	i = 0;
+	c = '\0';
+	if (!s)
+		return (0);
+	if (mode == 1 || mode == 2)
 	{
-		while (s[i] != '\0' && s[i] != '\n')
+		if (mode == 2)
+			c = '\n';
+		while (s[i] != '\0' && s[i] != c)
 			i++;
 		return (i);
 	}
@@ -41,63 +97,9 @@ size_t	linelen_mode(const char *s, int mode)
 	return (0);
 }
 
-char	*partial_join(char *save, char *temp)
+char	*super_free(char **str)
 {
-	char	*new;
-	size_t	i;
-	size_t	s_len;
-	size_t	t_len;
-
-	i = 0;
-	s_len = linelen_mode(save, 1);
-	t_len = linelen_mode(temp, 1);
-	new = ft_calloc(sizeof(char), s_len + t_len + 1);
-	if (!new)
-		return (NULL);
-	while (i < s_len)
-	{
-		new[i] = save[i];
-		i++;
-	}
-	i = 0;
-	while (i < t_len + 1)
-	{
-		new[i + s_len] = temp[i];
-		i++;
-	}
-	return (new);
-}
-
-char	*string_join(char *save, char *temp)
-{
-	char	*new;
-
-	if (!save)
-		save = ft_calloc(1, 1);
-	if (!temp)
-		return (save);
-	new = partial_join(save, temp);
-	if (!new)
-		return (NULL);
-	free(save);
-	return (new);
-}
-
-void	*ft_calloc(size_t size, size_t amount)
-{
-	char	*result;
-	char	*s;
-	size_t	i;
-
-	i = 0;
-	result = malloc(size * amount);
-	if (!result)
-		return (NULL);
-	s = (char *)result;
-	while (i < size * amount)
-	{
-		s[i] = '\0';
-		i++;
-	}
-	return (result);
+	free(*str);
+	*str = NULL;
+	return (NULL);
 }

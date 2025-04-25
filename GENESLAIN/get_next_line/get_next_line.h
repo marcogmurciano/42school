@@ -6,13 +6,12 @@
 /*   By: marcoga2 <marcoga2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 12:57:37 by marcoga2          #+#    #+#             */
-/*   Updated: 2025/04/25 12:58:14 by marcoga2         ###   ########.fr       */
+/*   Updated: 2025/04/25 17:54:27 by marcoga2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
-// # define BUFFER_SIZE 200
 
 // headers
 # include <stdlib.h>
@@ -20,12 +19,10 @@
 # include <stddef.h>
 # include <fcntl.h>
 
-size_t	linelen_mode(const char *s, int mode);
-char	*string_join(char *save, char *temp);
-void	*ft_calloc(size_t size, size_t amount);
-char	*copy_til_n(char *s);
-char	*clear_til_n(char *s);
-char	*read_til_n(int fd, char *save, int *is_empty);
+size_t	linelen_mode(int mode, const char *s);
+char	*ft_strjoin(char *s1, char *s2);
+char	*ft_substr(char *s, unsigned int start, size_t len);
 char	*get_next_line(int fd);
+char	*super_free(char **str);
 
 #endif

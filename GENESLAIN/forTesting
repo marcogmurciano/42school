@@ -1,49 +1,26 @@
-
-
-void print_color(const char *text, const char *color) {
-    // Definimos códigos de color ANSI
-    const char *reset = "\033[0m";
-    const char *red = "\033[31m";
-    const char *green = "\033[32m";
-    const char *yellow = "\033[33m";
-    const char *blue = "\033[34m";
-    const char *magenta = "\033[35m";
-    const char *cyan = "\033[36m";
-    const char *white = "\033[37m";
-
-    const char *selected_color = reset; // Por defecto
-
-    // Seleccionar el color
-    if (color != NULL) {
-        if (strcmp(color, "red") == 0) selected_color = red;
-        else if (strcmp(color, "green") == 0) selected_color = green;
-        else if (strcmp(color, "yellow") == 0) selected_color = yellow;
-        else if (strcmp(color, "blue") == 0) selected_color = blue;
-        else if (strcmp(color, "magenta") == 0) selected_color = magenta;
-        else if (strcmp(color, "cyan") == 0) selected_color = cyan;
-        else if (strcmp(color, "white") == 0) selected_color = white;
-    }
-
-    printf("read_til_n: %s%s%s\n", selected_color, text, reset);
-}
-
+#include <stdio.h>
 int	main(void)
 {
-	int		a = open("archivodeprueba.txt", O_RDONLY);
+	int		a;
 	char	*line;
-
-	if (a == -1)
+	int		i;
+	a = open("../../../francinette/tests/get_next_line/gnlTester/files/41_no_nl", O_RDONLY);
+	if (!a)
 	{
 		perror("Error abriendo el archivo\n");
 		return (1);
 	}
 	printf("archivo leido\n");
+	i = 0;
 	while ((line = get_next_line(a)) != NULL)
 	{
-		print_color(line, "blue");
+		printf("%s", line);
+		sleep(1);
 		free(line);
+		i++;
 	}
+	if (line == NULL)
+		printf("NULO");
 	close(a);
 	return (0);
 }
-

@@ -6,146 +6,82 @@
 /*   By: marcoga2 <marcoga2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 11:38:27 by marcoga2          #+#    #+#             */
-/*   Updated: 2025/04/25 11:37:16 by marcoga2         ###   ########.fr       */
+/*   Updated: 2025/04/25 17:56:30 by marcoga2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef BUFFER_SIZE
-# define BUFFER_SIZE 42
-#endif
-
 #include "get_next_line.h"
-#include <stdio.h>
 
-char	*copy_til_n(char *s)
+char	*clear_from_n(char *save)
 {
-	char	*result;
-	size_t	len;
-	size_t	i;
+	char	*new_save;
+	int		len;
 
-	if (s == NULL)
-		return (NULL);
-	i = 0;
-	len = linelen_mode(s, 2);
-	result = (char *)ft_calloc(sizeof(char), len + 1);
-	while (i < len)
+	if (!linelen_mode(3, save))
 	{
-		result[i] = s[i];
-		i++;
+		new_save = NULL;
+		return (super_free(&save));
 	}
-	if (s[i] == '\n')
-		result = string_join(result, "\n");
-	return (result);
+	else
+		len = linelen_mode(2, save) + 1;
+	if (!save[len])
+		return (super_free(&save));
+	new_save = ft_substr(save, len, linelen_mode(1, save) - len);
+	super_free(&save);
+	if (!new_save)
+		return (NULL);
+	return (new_save);
 }
 
-char	*clear_til_n(char *s)
+char	*copy_til_n(char *save)
 {
-	char	*result;
-	size_t	len;
-	size_t	i;
+	char	*line;
 
-	while (*s && *s != '\n')
-		s++;
-	if (*s == '\0')
+	line = ft_substr(save, 0, linelen_mode(2, save) + 1);
+	if (!line)
 		return (NULL);
-	s++;
-	len = linelen_mode(s, 1);
-	result = (char *)ft_calloc(sizeof(char), len + 1);
-	if (!result)
-		return (NULL);
-	i = 0;
-	while (s[i] != '\0')
-	{
-		result[i] = s[i];
-		i++;
-	}
-	return (result);
+	return (line);
 }
 
-char	*read_til_n(int fd, char *save, int *is_empty)
+char	*read_til_n(int fd, char *save)
 {
 	int		chars_num;
 	char	*buffer;
-	int		i;
 
-	i = 0;
-	if (!save)
-		save = ft_calloc(1, 1);
-	buffer = ft_calloc(sizeof(char), BUFFER_SIZE + 1);
-	if (!buffer)
-		return (NULL);
 	chars_num = 1;
-	while (chars_num > 0)
+	buffer = malloc(sizeof(char) * (BUFFER_SIZE + 1));
+	if (!buffer)
+		return (super_free(&save));
+	buffer[0] = '\0';
+	while (chars_num > 0 && !linelen_mode(3, buffer))
 	{
-		chars_num = read(fd, buffer, BUFFER_SIZE);
-		if (chars_num != 0)
-			is_empty = 0;
-		if (chars_num < 1)
+		chars_num = read (fd, buffer, BUFFER_SIZE);
+		if (chars_num > 0)
 		{
-			free(buffer);
-			if (chars_num == 0 && !is_empty)
-				return (save);
-			free(save);
-			return (NULL);
+			buffer[chars_num] = '\0';
+			save = ft_strjoin(save, buffer);
 		}
-		save = string_join(save, buffer);
-		while (i < BUFFER_SIZE)
-			buffer[i++] = '\0';
-		if (linelen_mode(save, 3) == 1)
-			break ;
 	}
 	free(buffer);
+	if (chars_num == -1)
+		return (super_free(&save));
 	return (save);
 }
 
 char	*get_next_line(int fd)
 {
-	static char	*save;
-	static int	is_empty;
+	static char	*save = {0};
 	char		*line;
-	char		*temp;
 
-	is_empty = 1;
 	if (fd < 0)
 		return (NULL);
-	if (!save || !linelen_mode(save, 3))
-	{
-		save = read_til_n(fd, save, &is_empty);
-		if (save == NULL || linelen_mode(save, 1) == 0)
-			return (NULL);
-	}
+	if ((save && !linelen_mode(3, save)) || !save)
+		save = read_til_n(fd, save);
+	if (!save)
+		return (NULL);
 	line = copy_til_n(save);
-	temp = clear_til_n(save);
-	free(save);
-	save = temp;
+	if (!line)
+		return (super_free(&save));
+	save = clear_from_n(save);
 	return (line);
-}
-
-#include <stdio.h>
-
-int	main(void)
-{
-	int		a;
-	char	*line;
-	int		i;
-
-	a = open("../../../francinette/tests/get_next_line/gnlTester/files/41_no_nl", O_RDONLY);
-	if (!a)
-	{
-		perror("Error abriendo el archivo\n");
-		return (1);
-	}
-	printf("archivo leido\n");
-	i = 0;
-	while ((line = get_next_line(a)) != NULL)
-	{
-		printf("%s", line);
-		sleep(1);
-		free(line);
-		i++;
-	}
-	if (line == NULL)
-		printf("NULO");
-	close(a);
-	return (0);
 }
