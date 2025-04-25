@@ -6,7 +6,7 @@
 /*   By: marcoga2 <marcoga2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 11:38:27 by marcoga2          #+#    #+#             */
-/*   Updated: 2025/04/24 16:06:57 by marcoga2         ###   ########.fr       */
+/*   Updated: 2025/04/25 11:37:16 by marcoga2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ char	*get_next_line(int fd)
 	char		*temp;
 
 	is_empty = 1;
-	if (fd < 0 || BUFFER_SIZE <= 0)
+	if (fd < 0)
 		return (NULL);
 	if (!save || !linelen_mode(save, 3))
 	{
@@ -121,36 +121,31 @@ char	*get_next_line(int fd)
 	return (line);
 }
 
-// #include <stdio.h>
+#include <stdio.h>
 
-// int	main(void)
-// {
-// 	int		a;
-// 	char	*line;
-// 	int		i;
+int	main(void)
+{
+	int		a;
+	char	*line;
+	int		i;
 
-// 	a = open("../../../francinette/tests/get_next_line/gnlTester/files/43_with_nl",
-// 			O_RDONLY);
-// 	if (!a)
-// 	{
-// 		perror("Error abriendo el archivo\n");
-// 		return (1);
-// 	}
-// 	printf("archivo leido\n");
-// 	i = 0;
-// 	while ((line = get_next_line(a)) != NULL)
-// 	{
-// 		printf("%s", line);
-// 		sleep(1);
-// 		free(line);
-// 		i++;
-// 	}
-// 	if (line == NULL)
-// 		printf("NULO");
-// 	close(a);
-// 	return (0);
-// }
-
-// printf("----------------------------------\n");
-// printf("la línea : \n %s \n contiene %d ENE\n", result,
-// printf("----------------------------------\n");
+	a = open("../../../francinette/tests/get_next_line/gnlTester/files/41_no_nl", O_RDONLY);
+	if (!a)
+	{
+		perror("Error abriendo el archivo\n");
+		return (1);
+	}
+	printf("archivo leido\n");
+	i = 0;
+	while ((line = get_next_line(a)) != NULL)
+	{
+		printf("%s", line);
+		sleep(1);
+		free(line);
+		i++;
+	}
+	if (line == NULL)
+		printf("NULO");
+	close(a);
+	return (0);
+}

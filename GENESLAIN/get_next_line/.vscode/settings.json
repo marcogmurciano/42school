@@ -1,6 +1,7 @@
 {
 	"files.associations": {
 		"get_next_line.h": "c",
-		"type_traits": "c"
+		"type_traits": "c",
+		"unistd.h": "c"
 	}
 }
