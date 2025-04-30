@@ -6,7 +6,7 @@
 /*   By: marcoga2 <marcoga2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 11:38:27 by marcoga2          #+#    #+#             */
-/*   Updated: 2025/04/25 17:56:30 by marcoga2         ###   ########.fr       */
+/*   Updated: 2025/04/28 11:38:30 by marcoga2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,7 @@ char	*clear_from_n(char *save)
 	int		len;
 
 	if (!linelen_mode(3, save))
-	{
-		new_save = NULL;
 		return (super_free(&save));
-	}
 	else
 		len = linelen_mode(2, save) + 1;
 	if (!save[len])
@@ -31,16 +28,6 @@ char	*clear_from_n(char *save)
 	if (!new_save)
 		return (NULL);
 	return (new_save);
-}
-
-char	*copy_til_n(char *save)
-{
-	char	*line;
-
-	line = ft_substr(save, 0, linelen_mode(2, save) + 1);
-	if (!line)
-		return (NULL);
-	return (line);
 }
 
 char	*read_til_n(int fd, char *save)
@@ -79,7 +66,7 @@ char	*get_next_line(int fd)
 		save = read_til_n(fd, save);
 	if (!save)
 		return (NULL);
-	line = copy_til_n(save);
+	line = ft_substr(save, 0, linelen_mode(2, save) + 1);
 	if (!line)
 		return (super_free(&save));
 	save = clear_from_n(save);

@@ -6,7 +6,7 @@
 /*   By: marcoga2 <marcoga2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 11:38:18 by marcoga2          #+#    #+#             */
-/*   Updated: 2025/04/25 17:48:04 by marcoga2         ###   ########.fr       */
+/*   Updated: 2025/04/28 11:48:03 by marcoga2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,33 +39,32 @@ char	*ft_strjoin(char *s1, char *s2)
 	return (str);
 }
 
-char	*ft_substr(char *s, unsigned int start, size_t fragment_len)
+char	*ft_substr(char *s, unsigned int start, size_t len)
 {
 	size_t	i;
-	size_t	total_len;
-	char	*result;
+	size_t	s_len;
+	size_t	substr_len;
+	char	*substr;
 
-	i = 0;
-	total_len = linelen_mode(1, s);
 	if (!s)
-		return (0);
-	if (start > total_len)
-	{
-		result = malloc(sizeof(char) * (1));
-		if (!result)
-			return (NULL);
-		result[0] = '\0';
-		return (result);
-	}
-	if (total_len - start < fragment_len)
-		fragment_len = linelen_mode(1, s) - start;
-	result = malloc(sizeof(char) * (fragment_len + 1));
-	if (!result)
 		return (NULL);
-	while (start < total_len && i < fragment_len && s[start])
-		result[i++] = s[start++];
-	result[i] = '\0';
-	return (result);
+	s_len = linelen_mode(1, s);
+	if (start >= s_len)
+		return (NULL);
+	substr_len = s_len - start;
+	if (substr_len > len)
+		substr_len = len;
+	substr = malloc((substr_len + 1) * sizeof(char));
+	if (!substr)
+		return (NULL);
+	i = 0;
+	while (i < substr_len && s[start + i])
+	{
+		substr[i] = s[start + i];
+		i++;
+	}
+	substr[i] = '\0';
+	return (substr);
 }
 
 size_t	linelen_mode(int mode, const char *s)
