@@ -1,0 +1,29 @@
+-Para que sirve debian en comparacion a otros sistemas operativos? (centos vs debian)
+
+-Para que sirven las maquinas virtuales?
+
+-Que hace tu máquina virtual?
+
+-Que ventajas tienen tu política de contraseñas?
+
+-Que es SSH? que ventajas tiene su uso?
+
+-Que es sudo? que ventajas tiene su uso?
+
+-Que es UFW? que ventajas tiene su uso?
+
+-Que es crontab?
+
+
+
+-Estudiarse los comandos
+
+-diferencias entre apt aptitude y APPArmor
+
+-RECUERDA CLONAR EL .VDI ANTES DE LAS CORRECCIONES
+
+-repasa la creación de usuarios y asignación de grupos
+
+-cambiar el nombre de hostname (marcoga42)
+
+-cambiar la ejecucion del script a "cada 30 minutos" en lugar de "cada 5 minutos"

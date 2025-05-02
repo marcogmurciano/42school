@@ -1,0 +1,43 @@
+char	*get_next_line(int fd)
+{
+	ssize_t 	to_read;
+	char		*buffer;
+	static char	*left;
+	char		*aux;
+	char		*to_return;
+
+	if (BUFFER_SIZE <= 0 || fd < 0)
+		return (NULL);
+	buffer = (char *)malloc(BUFFER_SIZE + 1);
+	if (!buffer)
+		return (NULL);
+	to_read = read(fd, buffer, BUFFER_SIZE);
+	if (to_read < 0)
+	{
+		free(buffer);
+		return (NULL);
+	}
+	while (to_read > 0)
+	{
+		buffer[to_read] = '\0';
+		if (!left)
+			left = ft_strdup("");
+		aux = ft_strjoin(left, buffer);
+		free(left);
+		left = ft_strdup(aux);
+		if (ft_strchr(aux, '\n'))
+		{
+			free(left);
+			to_return = ft_substr(aux, 0, ft_strlen(aux) - ft_strlen(ft_strchr(aux, '\n') + 1));
+			
+		}
+		to_read = read
+	}
+	uif (!left || ft_strlen(left) == 0)
+		return (NULL);
+	to_return = ft_strdup(left);
+	free(left);;
+	left = NULL;
+	return (to_return)
+	
+}
