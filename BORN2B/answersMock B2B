@@ -1,0 +1,125 @@
+-Para que sirve debian en comparacion a otros sistemas operativos? (centos vs debian)
+	ambos tienen apicaciones parecidas pero debian es mucho mas begginer friendly
+	además rocky está mas enfocado para empresas y presenta soporte de mayor 
+	duración, utilizan gestor de paquetes distintos. rocky esta basado en rhel
+	
+-Para que sirven las maquinas virtuales?
+	Es un software que simula un sistema de computación y puede ejecutar programas 
+	como si fuese una computadora real. Permite crear múltiples entornos simulados 
+	o recursos dedicados desde un solo sistema de hardware físico.
+	Su objetivo es el de proporcionar un entorno de ejecución independiente de la 
+	plataforma de hardware y del sistema operativo, que oculte los detalles de la 
+	plataforma subyacente y permita que un programa se ejecute siempre de la misma 
+	forma sobre cualquier plataforma.
+	
+-Que hace tu máquina virtual?
+	nada además de dar sus datos cada diez minutos
+	
+-Que es SSH? que ventajas tiene su uso?
+	(Secure Shell) es un protocolo de red que permite conectarse de forma segura y 
+	cifrada a otro equipo a través de una red, normalmente para acceder a una 
+	terminal de comandos remota. 
+	Usa cifrado fuerte para proteger La autenticación y Los datos transmitidos.
+	es hiper seguro, utilizan encriptacion de clave publica-clave privada. además 
+	permite automatización y scripting.
+	
+-Que es sudo? que ventajas tiene su uso?
+	(abreviatura de "superuser do") es una herramienta en sistemas Unix/Linux que 
+	permite a un usuario autorizado ejecutar comandos con privilegios elevados, 
+	normalmente como el usuario rootCuando un usuario ejecuta un comando con sudo, 
+	el sistema:
+		Verifica si ese usuario tiene permiso para usar sudo.
+		Le pide su propia contraseña (no la del root).
+		Ejecuta el comando con privilegios de superusuario
+	Ofrece seguridad, control y trazabilidad, a través del control granular de 
+	permisos, evita el uso en demasía del user root  y registra todas las acciones 
+	que se realizan con él  
+	
+-Que es UFW? que ventajas tiene su uso?
+	es una herramienta de configuración de firewall para sistemas basados en Linux, 
+	como Debian. Fue diseñada para facilitar el manejo de iptables, el sistema de 
+	filtrado de paquetes que Linux usa internamente para implementar políticas de 
+	red y seguridad. para usuarios que quieren aplicar reglas básicas de firewall 
+	sin complicarse con la complejidad de iptables.
+	Tiene una sintaxis muy clara y fácil de usar, alta compatibilidad.
+
+-Que es crontab?
+	(abreviatura de cron table) es una herramienta en sistemas Unix/Linux que 
+	permite programar tareas automáticas que se ejecutan en intervalos regulares: 
+	minutos, horas, días, etc.
+	Se utiliza junto con el servicio cron, que es el demonio que ejecuta las 
+	tareas programadas.
+	
+	Funcionamiento de cada parámetro de crontab:
+
+	m ➤ Corresponde al minuto en que se va a ejecutar el script, el valor va de 0 
+	a 59.
+	h ➤ La hora exacta, se maneja el formato de 24 horas, los valores van de 0 a 
+	23, siendo 0 las 12:00 de la medianoche.
+	dom ➤ hace referencia al día del mes, 
+	por ejemplo se puede especificar 15 si se quiere ejecutar cada día 15.
+	dow ➤ Significa el día de la semana, puede ser numérico (0 a 7, donde 0 y 7 
+	son domingo) o las 3 primeras letras del día en inglés: mon, tue, wed, thu, 
+	fri, sat, sun.
+	user ➤ Define el usuario que va a ejecutar el comando, puede ser root, u otro 
+	usuario diferente siempre y cuando tenga permisos de ejecución del script.
+	command ➤ Refiere al comando o a la ruta absoluta del script a ejecutar.
+
+-diferencias entre apt aptitude y APPArmor
+	Aptitude es una versión mejorada de apt. APT es un administrador de paquetes de 
+	nivel inferior y aptitude es un administrador de paquetes de alto nivel. Otra 
+	gran diferencia es la funcionalidad que ofrecen ambas herramientas. Aptitude 
+	ofrece una mejor funcionalidad en comparación con apt.
+	
+	APPArmor Es un módulo de seguridad del kernel Linux que permite al 
+	administrador del sistema restringir las capacidades de un programa.
+
+
+
+
+
+-RECUERDA CLONAR EL .VDI ANTES DE LAS CORRECCIONES
+
+-Estudiarse los comandos
+
+
+
+
+
+
+-repasa la creación de usuarios y asignación de grupos
+	sudo adduser nombre_usuario
+		Crea el usuario.
+		Crea automáticamente su directorio /home/nombre_usuario.
+		Te pedirá una contraseña y algunos datos opcionales.
+	sudo addgroup nombre_grupo
+		para crear un nuevo grupo
+	sudo usermod -aG nombre_grupo nombre_usuario
+		añadir user a un group
+	groups nombre_usuario
+		ver a que grupos pertenece un user
+	sudo deluser nombre_usuario
+		eliminar user
+	sudo delgroup nombre_grupo
+		eliminar group
+
+-cambiar el nombre de hostname (marcoga42)
+	sudo nano /etc/hostname
+		Verás una sola línea con el nombre actual del equipo,
+		Reemplázala por el nuevo nombre
+	sudo nano /etc/hosts
+		Cambia en esta línea el antiguo por el nuevo hostname:
+			127.0.1.1   old-hostname
+	sudo reboot
+	
+-cambiar la ejecucion del script a "cada 30 minutos" en lugar de "cada 5 minutos"
+	entrar en
+		crontab -e
+	y cambiar la linea
+		*/10 * * * * /ruta/al/script.sh
+
+
+
+
+
+
