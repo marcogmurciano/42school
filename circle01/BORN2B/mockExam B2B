@@ -1,0 +1,41 @@
+-Para que sirve debian en comparacion a otros sistemas operativos? (rocky vs debian)
+	es muy ligero (debido a, entre otras cosas, su carencia de interfaz gráfica) va genial para hacer 
+	servidores. con respecto a rocky es mucho mas begginer friendly y está genial para proyectos de este tipo, a 
+	diferencia de rocky que está orientado más para empresas y es más complicado, aunque ofrecen un soporte de 
+	muchos más años.
+-Para que sirven las maquinas virtuales?
+	para ejecutar distintos sistemas operativos sin necesidad de tener más hardware. emulan un ordenador sobre 
+	otro ordenador. esto puede ser útil también para asgurarse de que ciertos programas se comportan de manera 
+	identica independientemente del hardware donde sean ejecutados
+-Que hace tu máquina virtual?
+	nada, mostrar sus datos cada 10 minutos
+-Que ventajas tienen tu política de contraseñas?
+	es muy segura, no debería poder ser facilmente violable, además requiere que el usuario esté activo y la 
+	cambie cada cierto tiempo.
+-Que es SSH? que ventajas tiene su uso?
+	secure shell es un protocolo de comunicación  encriptado con clave publica-privada que es muy seguro y sirve también para emular terminales
+-Que es sudo? que ventajas tiene su uso?
+	sudo, abreviatura de superuser do, es un comando que ejecuta lo siguiente como si fuera el usuario root, de forma que aligera procesos, y reduce la cantidad de veces que tienes que poner la contraseña. además se pueden discriminar usuarios en un ordenador, en plan este tiene sudo este no tal
+-Que es UFW? que ventajas tiene su uso?
+	es un programa que controla las iptables de manera sencilla se creo para poder crear reglas del firewall sin complicación. es muy userfriendly en comparación al manejo de las iptables originales
+-Que es crontab?
+	es un archivo o servicio con el que programar acciones concretas que se reporducirán en momentos concretos 	
+	del día o a intervalos definidos
+
+
+-Estudiarse los comandos
+
+-diferencias entre apt aptitude y APPArmor
+	protocolo de instalación de paquetes, apt es la evulocion de aptitude y app armor es otra cosa, relacionada con el kernel de linux
+-RECUERDA CLONAR EL .VDI ANTES DE LAS CORRECCIONES
+
+-repasa la creación de usuarios y asignación de grupos
+	añadir usuario:  sudo adduser pedro, sudo addgroup gente sudo deluser sudo delgroup
+	añadir a grupo:  sudo user "comando que no recuerdo" -aG group
+	
+-cambiar el nombre de hostname (marcoga42)
+	/nose/hostname
+	/nose/hosts (segunda linea 127.0.1.0)
+	sudo reboot
+-cambiar la ejecucion del script a "cada 30 minutos" en lugar de "cada 10 minutos"
+*/10 * * * * /ruta/monitoring -->  */10 * * * * /ruta/monitoring
